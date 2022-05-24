@@ -19,13 +19,14 @@ class SearchService:
     def getFoodById(self, foodId):
         food = self.__api.food_get(foodId)        
         return food
+
     def getFoodServings(self, foodId):
         servings = self.__api.food_get(foodId)['servings']['serving']
         return servings
 
 api = SearchService()
 # print(api.searchFood("bread roll"))
-print(api.getFoodById(794))
-print("\n")
-for serv in api.getFoodServings(794):
-    print(serv['serving_description'])
+# print(api.getFoodById('3590'))
+# print("\n")
+# for serv in api.getFoodServings(794):
+#     print(serv['serving_description'])
