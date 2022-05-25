@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+<body>
+    
+    <p>Meals for the day: {{date}}</p>
+    {% if foods|length == 0 %}
+        <p>No ingredients added for this meal yet</p>
+    {% endif %}
+    {% for food in foods %}
+        <p></p>
+        <a href="">
+            {{food['name']}} serving: {{food['s_name']}} quantity: {{food['quantity']}}
+        </a>
+    {% endfor %}
+
+</body>
+{% endblock %}

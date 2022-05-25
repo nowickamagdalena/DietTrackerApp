@@ -1,0 +1,50 @@
+<head>
+  <title>Diet Tracker</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+
+</head>
+{% extends "base.html" %}
+
+{% block content %}
+<body>
+  <button class="button" id="add-button">Add Meal</button>
+  <p>Pick date:</p>
+  <form method="POST" action="{{ url_for('diet_tracker.getMealsForDay') }}">
+  <input type="date" name="date">
+  <button class="submit-date">Submit</button>
+  </form>
+  <!-- <h2 class="dialog-header"> New Meal </h2>
+    <div class="meal-type">
+      <select name="tags">
+        <option value="event">Breakfast</option>
+        <option value="important">Lunch</option>
+        <option value="birthday">Dinner</option>
+        <option value="festivity">Others</option>
+      </select>
+      <input type="button" value="Confirm" class="button" id="confirm-button">
+    </div>
+    <div class="search-meals">
+      <form method = "POST">
+        <p><input placeholder="Search here" type = "text" id="foodsearch" name = "foodName" /></p>
+        <input type="button" value="Search" class="button" id="search-button">
+        <div class="food-list">	
+          <ul></ul>								
+        </div>
+      </form>
+      </form>
+    </div>
+    <div class="serving">
+      <select name="servings">
+      <option value="" disabled selected>Select serving</option>
+      </select>
+      <p>Quantity:</p>
+      <input type="number" step="0.01" min="0" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) ||  
+      event.charCode == 46 || event.charCode == 0 ">
+    </div>
+    <input type="button" value="Cancel" class="button" id="cancel-button">
+    <input type="button" value="OK" class="button button-white" id="ok-button">
+    </div> -->
+</body>
+{% endblock %}

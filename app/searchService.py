@@ -14,7 +14,7 @@ class SearchService:
             return foods
         except KeyError:
             print("No results matching: ", foodName)
-            return None
+            return []
     
     def getFoodById(self, foodId):
         food = self.__api.food_get(foodId)        
@@ -25,7 +25,7 @@ class SearchService:
 
 api = SearchService()
 # print(api.searchFood("bread roll"))
-print(api.getFoodById(794))
-print("\n")
-for serv in api.getFoodServings(794):
-    print(serv['serving_description'])
+# print(api.getFoodById(794))
+# print("\n")
+# for serv in api.getFoodServings(794):
+#     print(serv['serving_description'])

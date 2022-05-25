@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+<body>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="notification is-danger">
+                {{ messages[0] }}
+            </div>
+        {% endif %}
+        {% endwith %}
+    <form action="/newMeal/{{date}}/B">
+        <button class="submit-date">Breakfast</button>
+    </form>  
+    <form action="/newMeal/{{date}}/L">
+        <button class="submit-date" name="Lunch">Lunch</button>
+    </form>  
+    <form action="/newMeal/{{date}}/D">
+        <button class="submit-date" name="Dinner">Dinner</button>
+    </form>  
+    <form action="/newMeal/{{date}}/O">
+        <button class="submit-date" name="Others">Others</button>
+    </form>       
+</body>
+{% endblock %}

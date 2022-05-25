@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+<body>
+    
+    <p>Meals for the day: {{date}}</p>
+    {% if meals|length == 0 %}
+        <p>No meals added for this day yet</p>
+    {% endif %}
+    {% for meal in meals %}
+        <a href="{{ url_for('diet_tracker.getIngredientsForMeal', mealid=meal.id, date=date)}}">
+            {{meal.id}} {{meal.type}}
+        </a>
+    {% endfor %}
+
+    <form action="/newMeal/{{date}}">
+        <input type="submit" value="Add meal" />
+    </form>  
+
+
+</body>
+{% endblock %}
