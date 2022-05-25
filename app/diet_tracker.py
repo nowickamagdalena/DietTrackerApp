@@ -39,7 +39,7 @@ def addMeal():
     new_meal = Meal(type=type, date=datetime.date(int(date[0]), int(date[1]), int(date[2])), user=int(userid))
     db.session.add(new_meal)
     db.session.commit()
-    return "test"
+    return new_meal.id
 
 @diet_tracker.route('/addingredient', methods=['POST'])
 # @login_required must uncomment later

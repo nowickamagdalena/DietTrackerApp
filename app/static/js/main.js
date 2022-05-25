@@ -135,6 +135,8 @@ function new_event(event) {
     $("#confirm-button").click(function(){
         $("#dialog .meal-type").hide(250);
         $('#dialog .search-meals').show(250)
+        var pickeddate = new Date($('.meal-type input[name="date"]').val())
+        console.log([pickeddate.getFullYear(), pickeddate.getMonth(), pickeddate.getDate()].join("-"))
     })
     // Event handler for cancel button
     $("#cancel-button").click(function() {
@@ -162,6 +164,7 @@ function new_event(event) {
 // displays searched food
 
 $('input[name="foodName"]').on("focusout ", function() {
+    $(".search-meals .food-list ul").empty()
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.open( "GET", '/diet-tracker/search/'+ $('input[name="foodName"]').val(), false);
     xmlHttp.send( null );
@@ -173,6 +176,7 @@ $('input[name="foodName"]').on("focusout ", function() {
     setTimeout(function(){
         $(".food-list ul li").each(function(){
         $(this).on('click', function(){
+            $(".serving select").empty()
             var foodItem = getFood($(this).attr("data-item-id"))
             $(".search-meals").hide(250)            
             $(".serving").show(250)
