@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block content %}
+<body>
+    <div>
+        <P>Adding food for {{mealtype}} on {{date}}</P>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="notification is-danger">
+                    {{ messages[0] }}
+                </div>
+            {% endif %}
+        {% endwith %}
+    </div>
+    <form method="POST" action="/diet-tracker/addFood">
+        <div class="serving">
+            <select name="servingid">
+                {% if update == "false" %}
+                    <option value="" disabled selected>Select serving</option>
+                {% else %}
+                    <option value="{{serving['serving_id']}}" selected>{{serving['serving_description']}}, kcal: {{serving['calories']}}</option>
+                 {% endif %}
+                {% for serv in food['servings']['serving'] %} 
+                    {% if serv['serving_id'] != serving['serving_id'] %}   
+                        <option value="{{serv['serving_id']}}">{{serv['serving_description']}}, kcal: {{serv['calories']}}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+            <p>Quantity:</p>
+            {% if update == "false" %}
+                <input type="number" name="quantity" step="0.01" min="0" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) ||  
+                event.charCode == 46 || event.charCode == 0 ">
+            {% else %}
+                <input type="number" value="{{quantity}}" name="quantity" step="0.01" min="0" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) ||  
+                event.charCode == 46 || event.charCode == 0 ">
+            {% endif %}
+        </div>
+        
+        <input type="hidden" name="date" value="{{date}}">
+        <input type="hidden" name="mealtype" value="{{mealtype}}">
+        <input type="hidden" name="mealid" value="{{mealid}}">
+        <input type="hidden" name="foodid" value="{{food['food_id']}}">
+        <input type="hidden" name="update" value="{{update}}">
+        <button class="add-food-button">Confirm</button>
+    </form>
+</body>
+{% endblock %}
+
+
+<!-- {% if serving == None %}
+<option value="" disabled selected>Select serving</option>
+{% else %}
+<option value="{{serving['serving_id']}}" selected>{{serving['serving_description']}}, kcal: {{serving['calories']}}</option>
+{% endif %}
+{% for serv in food['servings']['serving'] %} 
+{% if serv['serving_id'] != serving['serving_id'] %}   
+<option value="{{serv['serving_id']}}">{{serv['serving_description']}}, kcal: {{serv['calories']}}</option>
+{% endif %}
+{% endfor %}
+</select>
+<p>Quantity:</p>
+{% if quantity == None %}
+<input type="number" name="quantity" step="0.01" min="0" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) ||  
+event.charCode == 46 || event.charCode == 0 ">
+{% else %}
+<input type="number" value="{{quantity}}" name="quantity" step="0.01" min="0" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) ||  
+event.charCode == 46 || event.charCode == 0 ">
+{% endif %} -->

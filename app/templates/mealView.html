@@ -2,17 +2,45 @@
 
 {% block content %}
 <body>
-    
-    <p>Meals for the day: {{date}}</p>
+    <form method="POST" action="/diet-tracker/myDay">
+        <button class="submit-type" name="type">Back to meals</button>
+        <input type="hidden" name="date" value="{{date}}">
+    </form>    
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="notification is-danger">
+                {{ messages[0] }}
+            </div>
+        {% endif %}
+    {% endwith %}
+    <p>Ingredients for {{mealtype}}: {{date}}</p>
     {% if foods|length == 0 %}
         <p>No ingredients added for this meal yet</p>
     {% endif %}
     {% for food in foods %}
-        <p></p>
-        <a href="">
-            {{food['name']}} serving: {{food['s_name']}} quantity: {{food['quantity']}}
-        </a>
+        <span>
+            <form method="GET" action="{{ url_for('diet_tracker.pickFoodDetails', mealid=mealid, date=date, foodid=food['foodid'])}}">
+            
+                <button type='submit' class="food-item">{{food['name']}} serving: {{food['s_name']}} quantity: {{food['quantity']}}</button>
+            <input type="hidden" name="update" value="true">
+            <input type="hidden" name="mealtype" value="{{mealtype}}">
+            </form> 
+            <form method="GET" action="/diet-tracker/deleteIngredient">
+                <input type="submit" value="Remove">
+                <input type="hidden" name="mealid" value={{mealid}}>
+                <input type="hidden" name="date" value={{date}}>
+                <input type="hidden" name="foodid" value={{food['foodid']}}>
+            </form>
+        </span>
     {% endfor %}
+
+    <form method="POST" action="/diet-tracker/searchIngredients">
+        <input type="submit" value="Add ingredient">
+        <input type="hidden" name="mealid" value="{{mealid}}">
+        <input type="hidden" name="update" value="false">
+        <input type="hidden" name="date" value="{{date}}">
+        <input type="hidden" name="mealtype" value="{{mealtype}}">
+    </form>  
 
 </body>
 {% endblock %}

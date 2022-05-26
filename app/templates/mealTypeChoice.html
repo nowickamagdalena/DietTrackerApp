@@ -8,18 +8,18 @@
                 {{ messages[0] }}
             </div>
         {% endif %}
-        {% endwith %}
-    <form action="/newMeal/{{date}}/B">
-        <button class="submit-date">Breakfast</button>
+    {% endwith %}
+    <form action="/addMeal/{{date}}">
+        <button class="submit-type" name="type" value="Breakfast">Breakfast</button>
     </form>  
-    <form action="/newMeal/{{date}}/L">
-        <button class="submit-date" name="Lunch">Lunch</button>
+    <form action="/addMeal/{{date}}">
+        <button class="submit-type" name="type" value="Lunch">Lunch</button>
     </form>  
-    <form action="/newMeal/{{date}}/D">
-        <button class="submit-date" name="Dinner">Dinner</button>
+    <form action="/addMeal/{{date}}">
+        <button class="submit-type" name="type" value="Dinner">Dinner</button>
     </form>  
-    <form action="/newMeal/{{date}}/O">
-        <button class="submit-date" name="Others">Others</button>
+    <form action="/addMeal/{{date}}">
+        <button class="submit-type" name="type" value="Others">Others</button>
     </form>       
 </body>
 {% endblock %}

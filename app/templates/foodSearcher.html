@@ -2,17 +2,28 @@
 
 {% block content %}
 <body>
-    <form method="GET" action= "/diet-tracker/search">
+    <div>
+        <P>Adding food for {{mealtype}} on {{date}}</P>
+    </div>
+    <form method="GET" action="/diet-tracker/search">
         <div class="field">
             <div class="control">
                 <input class="input is-large" type="search-field" name="foodName" placeholder="Type here" autofocus="">
             </div>
         </div>
+        <input type="hidden" name="date" value="{{date}}">
+        <input type="hidden" name="mealtype" value="{{mealtype}}">
+        <input type="hidden" name="mealid" value="{{mealid}}">
+        <input type="hidden" name="update" value="{{update}}">
         <button class="search-food-button">Search</button>
     </form>
     {% if foods != None %}
-        {% for food in foods %}   
-            <p>{{food['food_name']}} {{food['food_description']}}</p>
+        {% for food in foods %}
+        <P>
+            <a href="{{ url_for('diet_tracker.pickFoodDetails', mealid=mealid, date=date, foodid=food['food_id'], update=update, mealtype=mealtype)}}">   
+                {{food['food_name']}} {{food['food_description']}}
+            </a> 
+        </P>
         {% else %}
             No matching food found
         {% endfor %}

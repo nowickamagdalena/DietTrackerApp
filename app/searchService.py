@@ -25,7 +25,7 @@ class SearchService:
 
 api = SearchService()
 # print(api.searchFood("bread roll"))
-# print(api.getFoodById(794))
+# print(api.getFoodById(52548))
 # print("\n")
-# for serv in api.getFoodServings(794):
+# for serv in api.getFoodServings(52548):
 #     print(serv['serving_description'])
