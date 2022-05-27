@@ -2,6 +2,10 @@
 
 {% block content %}
 <body>
+    <form method="GET" action="/diet-tracker/myDay">
+        <button class="submit-type" name="back-to-meals">Back to meals</button>
+        <input type="hidden" name="date" value="{{date}}">
+    </form>
     {% with messages = get_flashed_messages() %}
         {% if messages %}
             <div class="notification is-danger">
@@ -9,17 +13,15 @@
             </div>
         {% endif %}
     {% endwith %}
+    {% for type in mealtypes %}
     <form action="/addMeal/{{date}}">
-        <button class="submit-type" name="type" value="Breakfast">Breakfast</button>
-    </form>  
-    <form action="/addMeal/{{date}}">
-        <button class="submit-type" name="type" value="Lunch">Lunch</button>
-    </form>  
-    <form action="/addMeal/{{date}}">
-        <button class="submit-type" name="type" value="Dinner">Dinner</button>
-    </form>  
-    <form action="/addMeal/{{date}}">
-        <button class="submit-type" name="type" value="Others">Others</button>
-    </form>       
+        {% if type in existing %}
+            <button class="submit-type" name="type" value="{{type}}" disabled>{{type}}</button>
+        {% else %}
+            <button class="submit-type" name="type" value="{{type}}">{{type}}</button>
+        {% endif %}
+        <input type="hidden" name="update" value="false" />
+    </form>
+    {% endfor %}    
 </body>
 {% endblock %}

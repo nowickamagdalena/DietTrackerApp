@@ -2,10 +2,17 @@
 
 {% block content %}
 <body>
-    <form method="POST" action="/diet-tracker/myDay">
-        <button class="submit-type" name="type">Back to meals</button>
+    <form method="GET" action="/diet-tracker/myDay">
+        <button class="submit-type" name="back-to-meals">Back to meals</button>
         <input type="hidden" name="date" value="{{date}}">
-    </form>    
+    </form>
+    <form method="GET" action="/diet-tracker/confirm-delete-meal">
+        <button class="submit-type" name="delete-meal">Delete meal</button>
+        <input type="hidden" name="date" value="{{date}}">
+        <input type="hidden" name="mealid" value={{mealid}}>
+        <input type="hidden" name="mealtype" value="{{mealtype}}">
+    </form>
+    <P>Calories for this meal: {{meal_nutr['calories']}}</P> 
     {% with messages = get_flashed_messages() %}
         {% if messages %}
             <div class="notification is-danger">
@@ -19,9 +26,9 @@
     {% endif %}
     {% for food in foods %}
         <span>
+            <p>{{food['name']}} serving: {{food['s_name']}} quantity: {{food['quantity']}} kcal: {{foods_nutr[food['foodid']]['calories']}}</p>
             <form method="GET" action="{{ url_for('diet_tracker.pickFoodDetails', mealid=mealid, date=date, foodid=food['foodid'])}}">
-            
-                <button type='submit' class="food-item">{{food['name']}} serving: {{food['s_name']}} quantity: {{food['quantity']}}</button>
+                <button type='submit' class="food-item"> Edit</button>
             <input type="hidden" name="update" value="true">
             <input type="hidden" name="mealtype" value="{{mealtype}}">
             </form> 

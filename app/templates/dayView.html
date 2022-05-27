@@ -1,22 +1,26 @@
 {% extends "base.html" %}
 
 {% block content %}
-<body>
-    
+<body>    
+    <form method="GET" action="/diet-tracker">
+        <button class="submit-type" name="back-to-calendar">Back to calendar</button>
+    </form>
+    <P>Calories for this day: {{day_nutr['calories']}}</P>    
     <p>Meals for the day: {{date}}</p>
     {% if meals|length == 0 %}
         <p>No meals added for this day yet</p>
     {% endif %}
     {% for meal in meals %}
-        <a href="{{ url_for('diet_tracker.getIngredientsForMeal', mealid=meal.id, date=date)}}">
-            {{meal.id}} {{meal.type}}
-        </a>
+        <p>
+            <a href="{{ url_for('diet_tracker.getIngredientsForMeal', mealid=meal.id, date=date)}}">
+            {{meal.type}} kcal: {{meals_nutr[meal.type]['calories']}}
+            </a>
+        </p>
     {% endfor %}
-
-    <form action="/newMeal/{{date}}">
-        <input type="submit" value="Add meal" />
-    </form>  
-
-
+    {% if meals|length < 4 %}
+        <form action="/newMeal/{{date}}">
+            <input type="submit" value="Add meal" />
+        </form>  
+    {% endif %}
 </body>
 {% endblock %}

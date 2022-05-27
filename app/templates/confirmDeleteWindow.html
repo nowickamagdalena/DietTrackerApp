@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+<body>
+    <p>Are you sure you want to delete {{mealtype}} from {{date}} ?</p>
+    <span>
+        <form action="/diet-tracker/deleteMeal/{{mealid}}">
+            <button class="submit-type" name="type">Delete</button>
+            <input type="hidden" name="date" value="{{date}}">
+        </form>  
+        <form action="/getIngredientsForMeal/{{mealid}}/{{date}}">
+            <button class="submit-type" name="type">Cancel</button>
+        </form>
+    </span>
+</body>
+{% endblock %}

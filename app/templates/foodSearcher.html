@@ -2,6 +2,11 @@
 
 {% block content %}
 <body>
+    <form method="GET" action="/getIngredientsForMeal/{{mealid}}/{{date}}">
+        <button class="submit-type" name="back-to-meal">Back to meal</button>
+        <!-- <input type="hidden" name="date" value="{{date}}">
+        <input type="hidden" name="mealid" value="{{mealid}}"> -->
+    </form>
     <div>
         <P>Adding food for {{mealtype}} on {{date}}</P>
     </div>

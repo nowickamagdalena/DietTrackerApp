@@ -2,6 +2,19 @@
 
 {% block content %}
 <body>
+    {% if update == 'true' %}    
+        <form method="GET" action="/getIngredientsForMeal/{{mealid}}/{{date}}">
+            <button class="submit-type" name="back-to-meal">Cancel</button>
+        </form>
+    {% else %}    
+        <form method="POST" action="/diet-tracker/searchIngredients">
+            <input type="submit" value="Cancel">
+            <input type="hidden" name="mealid" value="{{mealid}}">
+            <input type="hidden" name="update" value="false">
+            <input type="hidden" name="date" value="{{date}}">
+            <input type="hidden" name="mealtype" value="{{mealtype}}">
+        </form>
+    {% endif %}
     <div>
         <P>Adding food for {{mealtype}} on {{date}}</P>
         {% with messages = get_flashed_messages() %}
@@ -14,7 +27,7 @@
     </div>
     <form method="POST" action="/diet-tracker/addFood">
         <div class="serving">
-            <select name="servingid">
+            <select name="servingid" id="select-serving" onchange='displayPreviewCals()'>
                 {% if update == "false" %}
                     <option value="" disabled selected>Select serving</option>
                 {% else %}
@@ -28,18 +41,39 @@
             </select>
             <p>Quantity:</p>
             {% if update == "false" %}
-                <input type="number" name="quantity" step="0.01" min="0" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) ||  
+                <input type="number" name="quantity" id="quantity" step="0.01" min="0" onchange='displayPreviewCals()' onkeypress="return (event.charCode >= 48 && event.charCode <= 57) ||  
                 event.charCode == 46 || event.charCode == 0 ">
             {% else %}
-                <input type="number" value="{{quantity}}" name="quantity" step="0.01" min="0" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) ||  
+                <input type="number" value="{{quantity}}" name="quantity" id="quantity" step="0.01" min="0.01"onchange='displayPreviewCals()' onkeypress="return (event.charCode >= 48 && event.charCode <= 57) ||  
                 event.charCode == 46 || event.charCode == 0 ">
             {% endif %}
+            <p id='calorie-preview'></p>
+
+            <script>
+                function displayPreviewCals() {
+                var serv_id = document.getElementById("select-serving").value;
+                console.log(serv_id)
+                var quantity = document.getElementById("quantity").value;
+                console.log(quantity)
+                var foodid = document.getElementById("foodid").value;
+                console.log(foodid)
+                if(serv_id != null && quantity != ""){
+                    var xmlHttp = new XMLHttpRequest();
+                    xmlHttp.open("GET", '/diet-tracker/preview-calories'+"?"+`foodid=${foodid}&servingid=${serv_id}&quantity=${quantity}`, false);
+                    xmlHttp.send(null);
+                    console.log(xmlHttp.responseText)
+                    var result = JSON.parse(xmlHttp.responseText);
+                    document.getElementById("calorie-preview").innerHTML = "Current kcal: " + result['calories'];
+                    console.log(result['calories'])
+                }
+                }
+            </script>
         </div>
         
         <input type="hidden" name="date" value="{{date}}">
         <input type="hidden" name="mealtype" value="{{mealtype}}">
         <input type="hidden" name="mealid" value="{{mealid}}">
-        <input type="hidden" name="foodid" value="{{food['food_id']}}">
+        <input type="hidden" name="foodid" id="foodid" value="{{food['food_id']}}">
         <input type="hidden" name="update" value="{{update}}">
         <button class="add-food-button">Confirm</button>
     </form>
