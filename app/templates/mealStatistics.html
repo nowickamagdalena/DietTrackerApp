@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %}
+<body>
+    <form method="GET" action="/getIngredientsForMeal/{{mealid}}/{{date}}">
+        <button class="submit-type" name="back-to-meals">Back to meal</button>
+        <input type="hidden" name="date" value="{{date}}">
+        <input type="hidden" name="mealid" value="{{mealid}}">
+    </form>
+    {% if goals['calories'] != None %}
+    <p>Calories for {{mealtype}}: {{calories}} / {{goals['calories']}}</p>
+    {% else %}
+    <p>Calories for {{date}}: {{calories}}</p>
+    {% endif %}
+    <p>Protein: {{protein}} g</p>
+    <p>Fat: {{fat}} g</p>
+    <p>Carbohydrates: {{carbs}} g</p>
+    
+    {% if goals['protein'] != None %}
+    <p>Protein goal: {{goals['protein']}} % </p>
+    {% endif %}
+    {% if goals['fat'] != None %}
+    <p>Fat goal: {{goals['fat']}} % </p>
+    {% endif %}
+    {% if goals['carbs'] != None %}
+    <p>Carbohydrates goal: {{goals['carbs']}} % </p>
+    {% endif %}
+
+    {% if calories|int > 0 %}
+    <img src= "{{ url_for('static', filename=img_url)}}">
+    {% endif %}
+
+</body>
+{% endblock %}

@@ -16,7 +16,7 @@
         </form>
     {% endif %}
     <div>
-        <P>Adding food for {{mealtype}} on {{date}}</P>
+        <P>Adding {{foodname}} for {{mealtype}} on {{date}}</P>
         {% with messages = get_flashed_messages() %}
             {% if messages %}
                 <div class="notification is-danger">

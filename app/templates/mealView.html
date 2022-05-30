@@ -6,6 +6,17 @@
         <button class="submit-type" name="back-to-meals">Back to meals</button>
         <input type="hidden" name="date" value="{{date}}">
     </form>
+    
+    <form method="POST" action="/diet-tracker/{{date}}/{{mealtype}}/statistics">
+        <input type="submit" value="Check nutritional statistics" />
+        <input type="hidden" name="calories" value="{{meal_nutr['calories']}}"/>
+        <input type="hidden" name="protein" value="{{meal_nutr['protein']}}"/>
+        <input type="hidden" name="fat" value="{{meal_nutr['fat']}}"/>
+        <input type="hidden" name="carbs" value="{{meal_nutr['carbohydrate']}}"/>
+        <input type="hidden" name="date" value="{{date}}" />
+        <input type="hidden" name="mealtype" value="{{mealtype}}" />
+        <input type="hidden" name="mealid" value="{{mealid}}" />
+    </form> 
     <form method="GET" action="/diet-tracker/confirm-delete-meal">
         <button class="submit-type" name="delete-meal">Delete meal</button>
         <input type="hidden" name="date" value="{{date}}">
@@ -31,6 +42,7 @@
                 <button type='submit' class="food-item"> Edit</button>
             <input type="hidden" name="update" value="true">
             <input type="hidden" name="mealtype" value="{{mealtype}}">
+            <input type="hidden" name="foodname" value="{{food['name']}}">
             </form> 
             <form method="GET" action="/diet-tracker/deleteIngredient">
                 <input type="submit" value="Remove">

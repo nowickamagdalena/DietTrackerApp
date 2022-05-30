@@ -14,8 +14,8 @@ class CalorieCounter:
         for serv in servings:
             if serv['serving_id'] == servingid:
                 myServing = serv
-                return {'calories': round(float(myServing['calories']) * quantity), "protein":float(myServing['protein']) * quantity,
-                    "fat": float(myServing['fat']) * quantity, "carbohydrate": float(myServing['carbohydrate']) * quantity}
+                return {'calories': round(float(myServing['calories'] * quantity), 2), "protein":round(float(myServing['protein']) * quantity, 2),
+                    "fat": round(float(myServing['fat']) * quantity, 2), "carbohydrate": round(float(myServing['carbohydrate']) * quantity, 2)}
 
     def calcNutrientsForFood(self, food):
         result = self.__api.getFoodById(food.food_id)
@@ -26,8 +26,8 @@ class CalorieCounter:
         for serv in servings:
             if serv['serving_id'] == food.serving_id:
                 myServing = serv
-                return {'calories' :float(myServing['calories']) * food.quantity, "protein":float(myServing['protein']) * food.quantity,
-                    "fat": float(myServing['fat']) * food.quantity, "carbohydrate": float(myServing['carbohydrate']) * food.quantity}
+                return {'calories' :round(float(myServing['calories']) * food.quantity, 2), "protein":round(float(myServing['protein']) * food.quantity, 2),
+                    "fat": round(float(myServing['fat']) * food.quantity, 2), "carbohydrate": round(float(myServing['carbohydrate']) * food.quantity, 2)}
 
     def calcNutrientsForMeal(self, foodList):
         meal_nutrients={"calories": 0, "protein": 0, "fat": 0, "carbohydrate": 0}
@@ -55,3 +55,4 @@ class CalorieCounter:
             day_nutrients['carbohydrate'] += meal_nutr['meal_sum']['carbohydrate']
         return {"day_sum": day_nutrients, "meals_sum": meals_nutrients}
         
+

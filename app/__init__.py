@@ -1,8 +1,10 @@
 from flask import Flask
+from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 # init SQLAlchemy so we can use it later in our models
 db = SQLAlchemy()
+migrate = Migrate()
 
 def create_app():
 
@@ -16,7 +18,7 @@ def create_app():
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
 
     db.init_app(app)
-
+    migrate.init_app(app, db)
     from .models import User
 
     @login_manager.user_loader
@@ -30,6 +32,10 @@ def create_app():
     # blueprint for non-auth parts of app
     from .main import main as main_blueprint
     app.register_blueprint(main_blueprint)
+
+    
+    from .profile import profile as profile_blueprint
+    app.register_blueprint(profile_blueprint)
 
     from .diet_tracker import diet_tracker as diet_blueprint
     app.register_blueprint(diet_blueprint)

@@ -1,20 +1,20 @@
-import datetime
 import json
-from turtle import update
-from unittest import result
-
+import datetime
+import os
 from app import calorieCounter
 from .searchService import api
 from flask import Blueprint, flash, redirect, render_template, request, url_for
 from flask_login import current_user, login_required
-from .models import Meal, Ingredient
+from .models import Meal, Ingredient, User
 from datetime import date
-from .__init__ import db, create_app
+from .__init__ import db
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
 
 calCounter = calorieCounter.CalorieCounter(api)
 
 diet_tracker = Blueprint('diet_tracker', __name__)
-
 
 @diet_tracker.route('/diet-tracker')
 @login_required
@@ -28,6 +28,7 @@ def pickFoodDetails(mealid, date, foodid):
 
     update = request.args.get('update')
     mealtype = request.args.get('mealtype')
+    foodname = request.args.get('foodname')
     print(update, mealtype)
 
     result = api.getFoodById(foodid)
@@ -49,7 +50,7 @@ def pickFoodDetails(mealid, date, foodid):
         serving = None
         quantity = None
 
-    return render_template('foodDetails.html',mealid=mealid, mealtype=mealtype, date=date, food=result, serving=serving, quantity=quantity, update=update)
+    return render_template('foodDetails.html',mealid=mealid, mealtype=mealtype, date=date, food=result, serving=serving, quantity=quantity, update=update, foodname=foodname)
 
 @diet_tracker.route('/diet-tracker/preview-calories')
 @login_required
@@ -176,6 +177,30 @@ def getMealsForDay():
 
     return render_template('dayView.html', date=date, meals=meals, day_nutr=nutrients['day_sum'], meals_nutr=nutrients['meals_sum'])
 
+@diet_tracker.route('/diet-tracker/<date>/statistics', methods=["POST"])
+@login_required
+def dayStatistics(date):
+    calories = request.form.get("calories")
+    protein = request.form.get("protein")
+    fat = request.form.get("fat")
+    carbs = request.form.get("carbs")
+    
+    user = User.query.filter_by(id=current_user.id).first()
+    userGoals = {"calories" : user.dailyCalGoal, "protein" : user.proteinPercentGoal, "fat" : user.fatPercentGoal, "carbs" : user.carbsPercentGoal}
+        
+    nutrients = [float(protein), float(fat), float(carbs)]
+    labels = ["Protein", "Fat", "Carbohydrates"]
+    if sum(nutrients) > 0:
+        plt.figure().clear()
+        plt.close()
+        plt.cla()
+        plt.clf()
+        plt.pie(nutrients, labels = labels, startangle = 90, shadow=True, autopct='%1.2f%%')
+        plt.axis('equal')
+        plt.savefig('app/static/images/dailyChart.png', transparent=True)
+        
+    return render_template('dailyStatistics.html', calories=calories, protein=protein, fat=fat, carbs=carbs, goals=userGoals, img_url="images/dailyChart.png", date=date)
+
 @diet_tracker.route('/getIngredientsForMeal/<mealid>/<date>')
 @login_required
 def getIngredientsForMeal(mealid, date):
@@ -195,6 +220,32 @@ def getIngredientsForMeal(mealid, date):
     nutrients = calCounter.calcNutrientsForMeal(ingredients)
 
     return render_template('mealView.html', date=date, mealid=mealid, foods=food_list, mealtype=meal.type, meal_nutr=nutrients['meal_sum'], foods_nutr=nutrients['foods_sum'])
+
+@diet_tracker.route('/diet-tracker/<date>/<mealtype>/statistics', methods=["POST"])
+@login_required
+def mealStatistics(mealtype, date):
+    calories = request.form.get("calories")
+    protein = request.form.get("protein")
+    fat = request.form.get("fat")
+    carbs = request.form.get("carbs")
+    mealid = request.form.get("mealid")
+    
+    user = User.query.filter_by(id=current_user.id).first()
+    userGoals = {"calories" : user.dailyCalGoal, "protein" : user.proteinPercentGoal, "fat" : user.fatPercentGoal, "carbs" : user.carbsPercentGoal}
+        
+    nutrients = [float(protein), float(fat), float(carbs)]
+    labels = ["Protein", "Fat", "Carbohydrates"]
+    
+    if sum(nutrients) > 0:
+        plt.figure().clear()
+        plt.close()
+        plt.cla()
+        plt.clf()
+        plt.pie(nutrients, labels = labels, startangle = 90, shadow=True, autopct='%1.2f%%')
+        plt.axis('equal')
+        plt.savefig('app/static/images/dailyChart.png', transparent=True)
+    
+    return render_template('mealStatistics.html', mealid=mealid, mealtype=mealtype, calories=calories, protein=protein, fat=fat, carbs=carbs, goals=userGoals, img_url="images/mealChart.png", date=date)
 
 @diet_tracker.route('/diet-tracker/deleteIngredient')
 @login_required

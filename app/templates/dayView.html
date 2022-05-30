@@ -5,7 +5,15 @@
     <form method="GET" action="/diet-tracker">
         <button class="submit-type" name="back-to-calendar">Back to calendar</button>
     </form>
-    <P>Calories for this day: {{day_nutr['calories']}}</P>    
+    <P>Calories for this day: {{day_nutr['calories']}}</P>
+    <form method="POST" action="/diet-tracker/{{date}}/statistics">
+        <input type="submit" value="Check nutritional statistics" />
+        <input type="hidden" name="calories" value="{{day_nutr['calories']}}"/>
+        <input type="hidden" name="protein" value="{{day_nutr['protein']}}"/>
+        <input type="hidden" name="fat" value="{{day_nutr['fat']}}"/>
+        <input type="hidden" name="carbs" value="{{day_nutr['carbohydrate']}}"/>
+        <input type="hidden" name="date" value="{{date}}"/>
+    </form>     
     <p>Meals for the day: {{date}}</p>
     {% if meals|length == 0 %}
         <p>No meals added for this day yet</p>

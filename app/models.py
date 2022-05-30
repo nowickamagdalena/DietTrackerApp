@@ -8,6 +8,10 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(100), unique=True)
     password = db.Column(db.String(100))
     name = db.Column(db.String(1000))
+    dailyCalGoal = db.Column(db.Integer)
+    proteinPercentGoal = db.Column(db.Integer)
+    fatPercentGoal = db.Column(db.Integer)
+    carbsPercentGoal = db.Column(db.Integer)
     
     def __repr__(self):
         return "<User(id='%d' name='%s', email='%s', password='%s')>"%(self.id, self.name, self.email, self.password)
