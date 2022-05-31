@@ -1,27 +1,31 @@
 {% extends "base.html" %}
 
 {% block content %}
-<body>
-    <form method="GET" action="/diet-tracker/myDay">
-        <button class="submit-type" name="back-to-meals">Back to meals</button>
-        <input type="hidden" name="date" value="{{date}}">
-    </form>
-    {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            <div class="notification is-danger">
-                {{ messages[0] }}
-            </div>
-        {% endif %}
-    {% endwith %}
-    {% for type in mealtypes %}
-    <form action="/addMeal/{{date}}">
-        {% if type in existing %}
-            <button class="submit-type" name="type" value="{{type}}" disabled>{{type}}</button>
-        {% else %}
-            <button class="submit-type" name="type" value="{{type}}">{{type}}</button>
-        {% endif %}
-        <input type="hidden" name="update" value="false" />
-    </form>
-    {% endfor %}    
-</body>
+<div class="hero-body day-view center">
+    <div class="container has-text-centered">
+        <div class="container form-to-left">
+        <form method="GET" action="/diet-tracker/myDay">
+            <button class="submit-type btn" type="submit" name="back-to-meals">Back to meals</button>
+            <input type="hidden" name="date" value="{{date}}">
+        </form>
+        </div>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="notification is-danger">
+                    {{ messages[0] }}
+                </div>
+            {% endif %}
+        {% endwith %}
+        {% for type in mealtypes %}
+        <form action="/addMeal/{{date}}" class="meal-type-form">
+            {% if type in existing %}
+                <button class="submit-type btn btn-small" name="type" value="{{type}}" disabled>{{type}}</button>
+            {% else %}
+                <button class="submit-type btn btn-small" name="type" value="{{type}}">{{type}}</button>
+            {% endif %}
+            <input type="hidden" name="update" value="false" />
+        </form>
+        {% endfor %}    
+    </div>
+</div>
 {% endblock %}

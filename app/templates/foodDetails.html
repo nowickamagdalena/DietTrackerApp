@@ -1,29 +1,33 @@
 {% extends "base.html" %}
 
 {% block content %}
-<body>
+<div class="hero-body day-view center">
+    <div class="container has-text-centered">
+        <div class="container form-to-left">
     {% if update == 'true' %}    
         <form method="GET" action="/getIngredientsForMeal/{{mealid}}/{{date}}">
-            <button class="submit-type" name="back-to-meal">Cancel</button>
+            <button class="submit-type btn" name="back-to-meal">Cancel</button>
         </form>
     {% else %}    
         <form method="POST" action="/diet-tracker/searchIngredients">
-            <input type="submit" value="Cancel">
+            <input type="submit" value="Cancel" class="btn">
             <input type="hidden" name="mealid" value="{{mealid}}">
             <input type="hidden" name="update" value="false">
             <input type="hidden" name="date" value="{{date}}">
             <input type="hidden" name="mealtype" value="{{mealtype}}">
         </form>
     {% endif %}
-    <div>
-        <P>Adding {{foodname}} for {{mealtype}} on {{date}}</P>
-        {% with messages = get_flashed_messages() %}
+    </div>        
+    {% with messages = get_flashed_messages() %}
             {% if messages %}
                 <div class="notification is-danger">
                     {{ messages[0] }}
                 </div>
             {% endif %}
         {% endwith %}
+    <div class="day-card">
+    <div>
+        <p class="title">Adding {{foodname}} for {{mealtype}} on {{date}}</p>
     </div>
     <form method="POST" action="/diet-tracker/addFood">
         <div class="serving">
@@ -39,7 +43,8 @@
                     {% endif %}
                 {% endfor %}
             </select>
-            <p>Quantity:</p>
+            <div class="quantity-container">
+            <p class="title">Quantity:</p>
             {% if update == "false" %}
                 <input type="number" name="quantity" id="quantity" step="0.01" min="0" onchange='displayPreviewCals()' onkeypress="return (event.charCode >= 48 && event.charCode <= 57) ||  
                 event.charCode == 46 || event.charCode == 0 ">
@@ -47,6 +52,7 @@
                 <input type="number" value="{{quantity}}" name="quantity" id="quantity" step="0.01" min="0.01"onchange='displayPreviewCals()' onkeypress="return (event.charCode >= 48 && event.charCode <= 57) ||  
                 event.charCode == 46 || event.charCode == 0 ">
             {% endif %}
+            </div>
             <p id='calorie-preview'></p>
 
             <script>
@@ -75,28 +81,9 @@
         <input type="hidden" name="mealid" value="{{mealid}}">
         <input type="hidden" name="foodid" id="foodid" value="{{food['food_id']}}">
         <input type="hidden" name="update" value="{{update}}">
-        <button class="add-food-button">Confirm</button>
+        <button class="add-food-button btn btn-small">Confirm</button>
     </form>
-</body>
+    </div>
+</div>
+</div>
 {% endblock %}
-
-
-<!-- {% if serving == None %}
-<option value="" disabled selected>Select serving</option>
-{% else %}
-<option value="{{serving['serving_id']}}" selected>{{serving['serving_description']}}, kcal: {{serving['calories']}}</option>
-{% endif %}
-{% for serv in food['servings']['serving'] %} 
-{% if serv['serving_id'] != serving['serving_id'] %}   
-<option value="{{serv['serving_id']}}">{{serv['serving_description']}}, kcal: {{serv['calories']}}</option>
-{% endif %}
-{% endfor %}
-</select>
-<p>Quantity:</p>
-{% if quantity == None %}
-<input type="number" name="quantity" step="0.01" min="0" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) ||  
-event.charCode == 46 || event.charCode == 0 ">
-{% else %}
-<input type="number" value="{{quantity}}" name="quantity" step="0.01" min="0" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) ||  
-event.charCode == 46 || event.charCode == 0 ">
-{% endif %} -->

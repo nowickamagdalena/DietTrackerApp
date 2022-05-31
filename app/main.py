@@ -12,5 +12,6 @@ def index():
 @main.route('/profile')
 @login_required
 def profile():
-    return render_template('profile.html', name=current_user.name, calories=current_user.dailyCalGoal, protein=current_user.proteinPercentGoal, fat=current_user.fatPercentGoal, carbs=current_user.carbsPercentGoal)
+    user = User.query.filter_by(id=current_user.id).first()
+    return render_template('profile.html', name=current_user.name, calories=user.dailyCalGoal, protein=user.proteinPercentGoal, fat=user.fatPercentGoal, carbs=user.carbsPercentGoal)
 

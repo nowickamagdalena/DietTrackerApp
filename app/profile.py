@@ -19,6 +19,8 @@ def updateNutrients():
     carbs = request.form.get("carbs-percent-goal")
 
     user = User.query.filter_by(id=current_user.id).first()
+    if calories == '':
+        calories = None
     if fat != '':
         fatNum = int(fat)
     else:

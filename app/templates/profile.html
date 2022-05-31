@@ -1,29 +1,40 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1 class="title">
-  Welcome, {{name}}!
-  <div>
-    <h2>My nutritional goals</h2>
-    {% with messages = get_flashed_messages() %}
-      {% if messages %}
-        <div class="notification is-danger">
-            {{ messages[0] }}
+<div class="hero-body">
+  <div class="container has-text-centered">
+  <h1 class="title">
+    Welcome, {{name}}!
+    <div>
+      <h2>My nutritional goals</h2>
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          <div class="notification is-danger">
+              {{ messages[0] }}
+          </div>
+        {% endif %}
+      {% endwith %}
+      <form method="POST" class="goal-form" action="/profile/updateGoals">
+        <div class="form-row">
+          <p>Calories per day</p>
+          <input class="input is-large" type="number" min="0" name="calories-limit" value="{{calories}}" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 0">
         </div>
-      {% endif %}
-    {% endwith %}
-    <form method="POST" action="/profile/updateGoals">
-      <p>Calories per day</p>
-      <input class="input is-large" type="number" min="0" name="calories-limit" value="{{calories}}" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 0">
-      <p>Protein percent</p>
-      <input class="input is-large" type="number" name="protein-percent-goal" max="100" value="{{protein}}" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 0">
-      <p>Fat percent</p>
-      <input class="input is-large" type="number" name="fat-percent-goal" max="100" value="{{fat}}"  onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 0">
-      <p>Carbohydrates percent</p>
-      <input class="input is-large" type="number" name="carbs-percent-goal" max="100" value="{{carbs}}"  onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 0">
-      <button>Update</button>
-    </form>
+        <div class="form-row">
+        <p>Protein percent</p>
+        <input class="input is-large" type="number" name="protein-percent-goal" max="100" value="{{protein}}" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 0">
+        </div>
+        <div class="form-row">
+        <p>Fat percent</p>
+        <input class="input is-large" type="number" name="fat-percent-goal" max="100" value="{{fat}}"  onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 0">
+        </div>
+        <div class="form-row">
+        <p>Carbohydrates percent</p>
+        <input class="input is-large" type="number" name="carbs-percent-goal" max="100" value="{{carbs}}"  onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 0">
+        </div>
+        <button class="btn">Update</button>
+      </form>
+    </div>
   </div>
-  
+</div>
 </h1>
 {% endblock %}

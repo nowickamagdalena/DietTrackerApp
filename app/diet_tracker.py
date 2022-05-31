@@ -1,6 +1,5 @@
 import json
 import datetime
-import os
 from app import calorieCounter
 from .searchService import api
 from flask import Blueprint, flash, redirect, render_template, request, url_for
@@ -190,16 +189,23 @@ def dayStatistics(date):
         
     nutrients = [float(protein), float(fat), float(carbs)]
     labels = ["Protein", "Fat", "Carbohydrates"]
+    percents = {'protein': 0, 'fat': 0, 'carbs': 0}
     if sum(nutrients) > 0:
+        all = sum(nutrients)
         plt.figure().clear()
         plt.close()
         plt.cla()
         plt.clf()
-        plt.pie(nutrients, labels = labels, startangle = 90, shadow=True, autopct='%1.2f%%')
+        plt.pie(nutrients, labels = labels, startangle = 90, shadow=True, autopct=lambda x: '{:.2f}%'.format(x))
         plt.axis('equal')
         plt.savefig('app/static/images/dailyChart.png', transparent=True)
+
+        protein_pct = round(float(protein)/all*100, 2)
+        fat_pct = round(float(fat)/all*100, 2)
+        carbs_pct = round(float(carbs)/all*100, 2)
+        percents = {'protein': protein_pct, 'fat': fat_pct, 'carbs': carbs_pct}
         
-    return render_template('dailyStatistics.html', calories=calories, protein=protein, fat=fat, carbs=carbs, goals=userGoals, img_url="images/dailyChart.png", date=date)
+    return render_template('dailyStatistics.html', calories=calories, protein=protein, fat=fat, carbs=carbs, goals=userGoals, img_url="images/dailyChart.png", date=date, percents=percents)
 
 @diet_tracker.route('/getIngredientsForMeal/<mealid>/<date>')
 @login_required
@@ -235,17 +241,23 @@ def mealStatistics(mealtype, date):
         
     nutrients = [float(protein), float(fat), float(carbs)]
     labels = ["Protein", "Fat", "Carbohydrates"]
-    
+    percents = {'protein': 0, 'fat': 0, 'carbs': 0}
     if sum(nutrients) > 0:
+        all = sum(nutrients)
         plt.figure().clear()
         plt.close()
         plt.cla()
         plt.clf()
-        plt.pie(nutrients, labels = labels, startangle = 90, shadow=True, autopct='%1.2f%%')
+        plt.pie(nutrients, labels = labels, startangle = 90, shadow=True, autopct=lambda x: '{:.2f}%'.format(x))
         plt.axis('equal')
-        plt.savefig('app/static/images/dailyChart.png', transparent=True)
+        plt.savefig('app/static/images/mealChart.png', transparent=True)
+
+        protein_pct = round(float(protein)/all*100, 2)
+        fat_pct = round(float(fat)/all*100, 2)
+        carbs_pct = round(float(carbs)/all*100, 2)
+        percents = {'protein': protein_pct, 'fat': fat_pct, 'carbs': carbs_pct}
     
-    return render_template('mealStatistics.html', mealid=mealid, mealtype=mealtype, calories=calories, protein=protein, fat=fat, carbs=carbs, goals=userGoals, img_url="images/mealChart.png", date=date)
+    return render_template('mealStatistics.html', mealid=mealid, mealtype=mealtype, calories=calories, protein=protein, fat=fat, carbs=carbs, goals=userGoals, img_url="images/mealChart.png", date=date, percents=percents)
 
 @diet_tracker.route('/diet-tracker/deleteIngredient')
 @login_required

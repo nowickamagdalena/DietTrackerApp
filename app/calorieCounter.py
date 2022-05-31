@@ -14,8 +14,8 @@ class CalorieCounter:
         for serv in servings:
             if serv['serving_id'] == servingid:
                 myServing = serv
-                return {'calories': round(float(myServing['calories'] * quantity), 2), "protein":round(float(myServing['protein']) * quantity, 2),
-                    "fat": round(float(myServing['fat']) * quantity, 2), "carbohydrate": round(float(myServing['carbohydrate']) * quantity, 2)}
+                return {'calories': round(float(myServing['calories']) * float(quantity), 2), "protein":round(float(myServing['protein']) * float(quantity), 2),
+                    "fat": round(float(myServing['fat']) * float(quantity), 2), "carbohydrate": round(float(myServing['carbohydrate']) * float(quantity), 2)}
 
     def calcNutrientsForFood(self, food):
         result = self.__api.getFoodById(food.food_id)

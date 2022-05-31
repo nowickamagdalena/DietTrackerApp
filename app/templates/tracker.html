@@ -1,18 +1,12 @@
-<head>
-  <title>Diet Tracker</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-
-</head>
 {% extends "base.html" %}
-
 {% block content %}
-<body>
-  <p>Pick date:</p>
-  <form method="GET" action="{{ url_for('diet_tracker.getMealsForDay') }}">
-    <input type="date" name="date">
-    <button class="submit-date">Submit</button>
-  </form>
-</body>
+<div class="hero-body center">
+  <div class="container date-container has-text-centered">
+    <p class="title">Pick date:</p>
+    <form method="GET" class="form-date" action="{{ url_for('diet_tracker.getMealsForDay') }}">
+      <input type="date" name="date">
+      <button class="btn submit-date">Submit</button>
+    </form>
+  </div>
+</div>
 {% endblock %}

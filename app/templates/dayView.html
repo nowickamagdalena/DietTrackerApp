@@ -1,34 +1,44 @@
 {% extends "base.html" %}
 
 {% block content %}
-<body>    
-    <form method="GET" action="/diet-tracker">
-        <button class="submit-type" name="back-to-calendar">Back to calendar</button>
-    </form>
-    <P>Calories for this day: {{day_nutr['calories']}}</P>
-    <form method="POST" action="/diet-tracker/{{date}}/statistics">
-        <input type="submit" value="Check nutritional statistics" />
-        <input type="hidden" name="calories" value="{{day_nutr['calories']}}"/>
-        <input type="hidden" name="protein" value="{{day_nutr['protein']}}"/>
-        <input type="hidden" name="fat" value="{{day_nutr['fat']}}"/>
-        <input type="hidden" name="carbs" value="{{day_nutr['carbohydrate']}}"/>
-        <input type="hidden" name="date" value="{{date}}"/>
-    </form>     
-    <p>Meals for the day: {{date}}</p>
-    {% if meals|length == 0 %}
-        <p>No meals added for this day yet</p>
-    {% endif %}
-    {% for meal in meals %}
-        <p>
-            <a href="{{ url_for('diet_tracker.getIngredientsForMeal', mealid=meal.id, date=date)}}">
-            {{meal.type}} kcal: {{meals_nutr[meal.type]['calories']}}
-            </a>
-        </p>
-    {% endfor %}
-    {% if meals|length < 4 %}
-        <form action="/newMeal/{{date}}">
-            <input type="submit" value="Add meal" />
-        </form>  
-    {% endif %}
-</body>
+<div class="hero-body day-view center">
+    <div class="container has-text-centered">
+        <div class="container form-to-left">
+            <form method="GET" action="/diet-tracker">
+                <button class="submit-type btn" name="back-to-calendar">Back to calendar</button>
+            </form>
+        </div>
+        <div class="day-card"> 
+        <div class="dots"></div>  
+        <strong><p class="date">{{date}}</p></strong>
+        <div class="statistics-container">
+        <P>Calories for this day: {{day_nutr['calories']}}</P>
+        <form method="POST" class="form" action="/diet-tracker/{{date}}/statistics">
+            <input type="submit" class="btn btn-small" value="Check nutritional statistics" />
+            <input type="hidden" name="calories" value="{{day_nutr['calories']}}"/>
+            <input type="hidden" name="protein" value="{{day_nutr['protein']}}"/>
+            <input type="hidden" name="fat" value="{{day_nutr['fat']}}"/>
+            <input type="hidden" name="carbs" value="{{day_nutr['carbohydrate']}}"/>
+            <input type="hidden" name="date" value="{{date}}"/>
+        </form>
+        </div>
+        <strong><p>Meals:</p></strong> 
+        <div  class="meal-view"> 
+        {% if meals|length == 0 %}
+            <p>No meals added for this day yet</p>
+        {% endif %}
+        {% for meal in meals %}
+                <a class="result btn" href="{{ url_for('diet_tracker.getIngredientsForMeal', mealid=meal.id, date=date)}}">
+                {{meal.type}} kcal: {{meals_nutr[meal.type]['calories']}}
+                </a>
+        {% endfor %}
+        </div> 
+        {% if meals|length < 4 %}
+            <form action="/newMeal/{{date}}">
+                <input type="submit" class="btn" value="Add meal" />
+            </form>  
+        {% endif %}
+    </div>
+    </div>
+</div>
 {% endblock %}

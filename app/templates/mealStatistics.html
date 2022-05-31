@@ -1,34 +1,41 @@
 {% extends "base.html" %}
 
 {% block content %}
-<body>
+<div class="hero-body day-view center">
+    <div class="container has-text-centered">
+        <div class="container form-to-left">
     <form method="GET" action="/getIngredientsForMeal/{{mealid}}/{{date}}">
-        <button class="submit-type" name="back-to-meals">Back to meal</button>
+        <button class="submit-type btn" name="back-to-meals">Back to meal</button>
         <input type="hidden" name="date" value="{{date}}">
         <input type="hidden" name="mealid" value="{{mealid}}">
     </form>
+</div>
+<div class="day-card">
     {% if goals['calories'] != None %}
     <p>Calories for {{mealtype}}: {{calories}} / {{goals['calories']}}</p>
     {% else %}
     <p>Calories for {{date}}: {{calories}}</p>
     {% endif %}
-    <p>Protein: {{protein}} g</p>
-    <p>Fat: {{fat}} g</p>
-    <p>Carbohydrates: {{carbs}} g</p>
     
     {% if goals['protein'] != None %}
-    <p>Protein goal: {{goals['protein']}} % </p>
+    <p>Protein: {{protein}} g, {{percents['protein']}} / {{goals['protein']}} % </p>
+    {% else %}
+    <p>Protein: {{protein}} g</p>
     {% endif %}
     {% if goals['fat'] != None %}
-    <p>Fat goal: {{goals['fat']}} % </p>
+    <p>Fat: {{fat}} g, {{percents['fat']}} / {{goals['fat']}} % </p>
+    {%else%}
+    <p>Fat: {{fat}} g</p>
     {% endif %}
     {% if goals['carbs'] != None %}
-    <p>Carbohydrates goal: {{goals['carbs']}} % </p>
+    <p>Carbohydrates: {{carbs}} g, {{percents['carbs']}} / {{goals['carbs']}} % </p>
+    {%else%}
+    <p>Carbohydrates: {{carbs}} g</p>    
     {% endif %}
-
+    </div>
     {% if calories|int > 0 %}
-    <img src= "{{ url_for('static', filename=img_url)}}">
+    <img class="chart" src= "{{ url_for('static', filename=img_url)}}">
     {% endif %}
-
-</body>
+</div>
+</div>
 {% endblock %}
