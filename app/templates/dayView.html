@@ -12,7 +12,7 @@
         <div class="dots"></div>  
         <strong><p class="date">{{date}}</p></strong>
         <div class="statistics-container">
-        <P>Calories for this day: {{day_nutr['calories']}}</P>
+        <P>Calories consumed: {{day_nutr['calories']|round|int}} kcal</P>
         <form method="POST" class="form" action="/diet-tracker/{{date}}/statistics">
             <input type="submit" class="btn btn-small" value="Check nutritional statistics" />
             <input type="hidden" name="calories" value="{{day_nutr['calories']}}"/>
@@ -29,13 +29,14 @@
         {% endif %}
         {% for meal in meals %}
                 <a class="result btn" href="{{ url_for('diet_tracker.getIngredientsForMeal', mealid=meal.id, date=date)}}">
-                {{meal.type}} kcal: {{meals_nutr[meal.type]['calories']}}
+                {{meal.type}}, {{meals_nutr[meal.type]['calories']|round|int}} kcal
                 </a>
         {% endfor %}
         </div> 
         {% if meals|length < 4 %}
-            <form action="/newMeal/{{date}}">
+            <form action="/newMeal">
                 <input type="submit" class="btn" value="Add meal" />
+                <input type="hidden" name="date" value="{{date}}" />
             </form>  
         {% endif %}
     </div>

@@ -4,7 +4,7 @@
 <div class="hero-body day-view center">
     <div class="container has-text-centered">
         <div class="container form-to-left">
-    <form method="GET" action="/diet-tracker/myDay">
+    <form method="GET" action="/diet-tracker/day">
         <button class="submit-type btn" name="back-to-meals">Back to meals</button>
         <input type="hidden" name="date" value="{{date}}">
     </form>
@@ -17,9 +17,9 @@
         <input type="hidden" name="mealid" value={{mealid}}>
         <input type="hidden" name="mealtype" value="{{mealtype}}">
     </form>
-    <p>{{mealtype}} on {{date}}</p>
+    <strong><p>{{mealtype}} on {{date}}</p></strong>
     <div class="statistics-container">
-    <P>Calories for this meal: {{meal_nutr['calories']}}</P> 
+    <P>Calories consumed: {{meal_nutr['calories']|round|int}} kcal</P> 
     <form method="POST" action="/diet-tracker/{{date}}/{{mealtype}}/statistics">
         <input type="submit" class="btn btn-small" value="Check nutritional statistics" />
         <input type="hidden" name="calories" value="{{meal_nutr['calories']}}"/>
@@ -31,7 +31,7 @@
         <input type="hidden" name="mealid" value="{{mealid}}" />
     </form> 
     </div>
-    <p>Ingredients:</p>
+    <strong><p>Ingredients:</p></strong>
     {% with messages = get_flashed_messages() %}
         {% if messages %}
             <div class="notification is-danger">
@@ -41,7 +41,7 @@
     {% endwith %}
     {% if foods|length == 0 %}
         <p>No ingredients added for this meal yet</p>
-    {% endif %}
+    {% else%}
     <table>
         <tr>
             <th>Name</th>
@@ -54,13 +54,16 @@
         <tr>
             <td>{{food['name']}}</td>
             <td>{{food['s_name']}}</td>
-            <td>{{food['quantity']}}</td>
-            <td>{{foods_nutr[food['foodid']]['calories']}}</td>
+            <td>{{"%.2f"|format(food['quantity'])}}</td>
+            <td>{{foods_nutr[food['foodid']]['calories']|round|int}}</td>
             <td class="actions-cell">            
-                <form method="GET" action="{{ url_for('diet_tracker.pickFoodDetails', mealid=mealid, date=date, foodid=food['foodid'])}}">
+                <form method="GET" action="{{ url_for('diet_tracker.pickFoodDetails')}}">
                 <button type='submit' class="food-item btn btn-tiny"> Edit</button>
                 <input type="hidden" name="update" value="true">
                 <input type="hidden" name="mealtype" value="{{mealtype}}">
+                <input type="hidden" name="mealid" value="{{mealid}}">
+                <input type="hidden" name="date" value={{date}}>
+                <input type="hidden" name="foodid" value={{food['foodid']}}>
                 <input type="hidden" name="foodname" value="{{food['name']}}">
             </form> 
             <form method="GET" action="/diet-tracker/deleteIngredient">
@@ -72,12 +75,14 @@
         </td>
         </tr>
     {% endfor %}
+    {% endif %}
     </table>
-    <form method="POST" action="/diet-tracker/searchIngredients">
+    <form method="POST" action="/diet-tracker/searchFood">
         <input type="submit" value="Add ingredient" class="btn btn-small">
         <input type="hidden" name="mealid" value="{{mealid}}">
         <input type="hidden" name="update" value="false">
         <input type="hidden" name="date" value="{{date}}">
+        <input type="hidden" name="start" value="true">
         <input type="hidden" name="mealtype" value="{{mealtype}}">
     </form>  
 </div>

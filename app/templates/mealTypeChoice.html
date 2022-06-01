@@ -4,7 +4,7 @@
 <div class="hero-body day-view center">
     <div class="container has-text-centered">
         <div class="container form-to-left">
-        <form method="GET" action="/diet-tracker/myDay">
+        <form method="GET" action="/diet-tracker/day">
             <button class="submit-type btn" type="submit" name="back-to-meals">Back to meals</button>
             <input type="hidden" name="date" value="{{date}}">
         </form>
@@ -17,13 +17,14 @@
             {% endif %}
         {% endwith %}
         {% for type in mealtypes %}
-        <form action="/addMeal/{{date}}" class="meal-type-form">
+        <form action="/addMeal" class="meal-type-form">
             {% if type in existing %}
                 <button class="submit-type btn btn-small" name="type" value="{{type}}" disabled>{{type}}</button>
             {% else %}
                 <button class="submit-type btn btn-small" name="type" value="{{type}}">{{type}}</button>
             {% endif %}
             <input type="hidden" name="update" value="false" />
+            <input type="hidden" name="date" value="{{date}}">
         </form>
         {% endfor %}    
     </div>

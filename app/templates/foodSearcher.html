@@ -4,10 +4,10 @@
 <div class="hero-body day-view center">
     <div class="container has-text-centered">
         <div class="container form-to-left">
-            <form method="GET" action="/getIngredientsForMeal/{{mealid}}/{{date}}">
+            <form method="GET" action="/diet-tracker/meal">
                 <button class="submit-type btn" name="back-to-meal">Back to meal</button>
-                <!-- <input type="hidden" name="date" value="{{date}}">
-                <input type="hidden" name="mealid" value="{{mealid}}"> -->
+                <input type="hidden" name="date" value="{{date}}">
+                <input type="hidden" name="mealid" value="{{mealid}}">
             </form>
         </div>  
     <div>
@@ -23,8 +23,9 @@
         <button class="search-food-button btn btn-small">Search</button>
     </div>
     </form>
+    {% if foods != 'false' %}
         <div class="search-results">
-        {% if foods != None %}
+        {% if foods != None %}  
             {% for food in foods %}
                 <a class="result" href="{{ url_for('diet_tracker.pickFoodDetails', mealid=mealid, date=date, foodid=food['food_id'], foodname=food['food_name'], update=update, mealtype=mealtype)}}"> 
                     <strong>{{food['food_name']}}</strong> {{food['food_description']}}
@@ -34,6 +35,7 @@
             {% endfor %}
         {% endif %}
         </div>
+    {% endif %}
     </div>
 </div>
 {% endblock %}

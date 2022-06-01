@@ -1,15 +1,11 @@
-from flask import Blueprint, flash, redirect, render_template, request
+from flask import Blueprint, flash, redirect, render_template, request, url_for
 from flask_login import current_user, login_required
 from .models import User
 from .__init__ import db
 
-# dailyCalGoal = db.Column(db.Integer)
-#     proteinPercentGoal = db.Column(db.Integer)
-#     fatPercentGoal = db.Column(db.Integer)
-#     carbsPercentGoal = db.Column(db.Integer)
-
 profile = Blueprint('profile', __name__)
 
+#function updating nutrition goals for user
 @profile.route('/profile/updateGoals', methods=["POST"])
 @login_required
 def updateNutrients():
@@ -19,6 +15,8 @@ def updateNutrients():
     carbs = request.form.get("carbs-percent-goal")
 
     user = User.query.filter_by(id=current_user.id).first()
+
+    #casting form data to numbers if given or None if empty 
     if calories == '':
         calories = None
     if fat != '':
@@ -37,13 +35,16 @@ def updateNutrients():
         carbsNum = 0
         carbs = None
 
+    #if sum of percents is greater than 100 display message and let user try again
     if fatNum + proteinNum + carbsNum > 100:
-        flash("Sum of your nutrients percentage cannot be grater than one hundred")
-        return render_template("profile.html", name=current_user.name, calories=user.dailyCalGoal, protein=user.proteinPercentGoal, fat=user.fatPercentGoal, carbs=user.carbsPercentGoal)
+        flash("Sum of your nutrients percentage cannot be greater than one hundred")
+        return redirect(url_for("main.profile", name=current_user.name, calories=user.dailyCalGoal, protein=user.proteinPercentGoal, fat=user.fatPercentGoal, carbs=user.carbsPercentGoal))
+   
+    #if all nutrients are given and sum of percents is not equal to 100 display message and let user try again
     if fat != None and protein != None and carbs != None and fatNum + proteinNum + carbsNum != 100:        
         flash("Sum of fat, protein and carbohydrates percentage must add up to one hundred")
-        return render_template("profile.html", name=current_user.name, calories=user.dailyCalGoal, protein=user.proteinPercentGoal, fat=user.fatPercentGoal, carbs=user.carbsPercentGoal)
-
+        return redirect(url_for("main.profile", name=current_user.name, calories=user.dailyCalGoal, protein=user.proteinPercentGoal, fat=user.fatPercentGoal, carbs=user.carbsPercentGoal))
+   
     user.dailyCalGoal = calories
     user.proteinPercentGoal=protein
     user.fatPercentGoal = fat
@@ -51,6 +52,6 @@ def updateNutrients():
     db.session.commit()
     flash("Your goals have been updated successfully")
 
-    return render_template("profile.html", name=current_user.name, calories=user.dailyCalGoal, protein=user.proteinPercentGoal, fat=user.fatPercentGoal, carbs=user.carbsPercentGoal)
-
+    return redirect(url_for("main.profile", name=current_user.name, calories=user.dailyCalGoal, protein=user.proteinPercentGoal, fat=user.fatPercentGoal, carbs=user.carbsPercentGoal))
+   
 

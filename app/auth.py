@@ -1,4 +1,3 @@
-import json
 from flask import Blueprint, render_template, redirect, url_for, request, flash
 from werkzeug.security import generate_password_hash, check_password_hash
 from .models import User
@@ -7,10 +6,12 @@ from .__init__ import db
 
 auth = Blueprint('auth', __name__)
 
+#function displaing user login view
 @auth.route('/login')
 def login():
     return render_template('login.html')
 
+#authenticating user login and password
 @auth.route('/login', methods=['POST'])
 def login_post():
     email = request.form.get('email')
@@ -27,10 +28,13 @@ def login_post():
 
     login_user(user, remember=remember)
     return redirect(url_for('main.profile'))
+
+#function displaing signup view
 @auth.route('/signup')
 def signup():
     return render_template('signup.html')
 
+#function creating user account in db if doesn't exist
 @auth.route('/signup', methods=['POST'])
 def signup_post():
     email = request.form.get('email')
@@ -52,6 +56,7 @@ def signup_post():
 
     return redirect(url_for('auth.login'))
 
+#user logout
 @auth.route('/logout')
 @login_required
 def logout():

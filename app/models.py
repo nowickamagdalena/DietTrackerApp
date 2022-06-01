@@ -2,6 +2,7 @@ from flask_login import UserMixin
 from sqlalchemy import ForeignKey
 from .__init__ import db
 
+#table for users
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
@@ -14,18 +15,21 @@ class User(UserMixin, db.Model):
     carbsPercentGoal = db.Column(db.Integer)
     
     def __repr__(self):
-        return "<User(id='%d' name='%s', email='%s', password='%s')>"%(self.id, self.name, self.email, self.password)
+        return "<User(id='%d' name='%s', email='%s', password='%s', cal_goal='%s', prot_goal='%s', fat_goal='%s', carb_goal='%s')>"%\
+            (self.id, self.name, self.email, self.password, self.dailyCalGoal, self.proteinPercentGoal, self.fatPercentGoal, self.carbsPercentGoal)
 
+#table for meals
 class Meal(db.Model):
     __tablename__ = 'meals'
     id = db.Column(db.Integer, primary_key=True)
-    type = db.Column(db.String(1), nullable=False)
+    type = db.Column(db.String(20), nullable=False)
     date = db.Column(db.Date, nullable=False)
     user = db.Column(db.Integer, ForeignKey('users.id'), nullable=False)
 
     def __repr__(self):
         return "<Meal(id='%d' type='%s', date='%s', user='%s')>"%(self.id, self.type, self.date, self.user)
 
+#table for ingredients of meals
 class Ingredient(db.Model):
     __tablename__ = 'ingredients'
     meal = db.Column(db.Integer, ForeignKey('meals.id'), primary_key=True) 

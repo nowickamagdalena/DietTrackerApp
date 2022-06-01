@@ -5,10 +5,12 @@ from .models import User
 
 main = Blueprint('main', __name__)
 
+#function redirecting to home page
 @main.route('/')
 def index():
     return render_template('index.html')
 
+#function redirecting to profile page
 @main.route('/profile')
 @login_required
 def profile():

@@ -98,6 +98,7 @@ section.hero{
     border-radius: 6px;
     height: 32px;   
     width: 30%;
+    font-size: 18px;
 }
 .search input{
     width: 77%;
@@ -142,8 +143,9 @@ section.hero{
     height: 120px;
 }
 .form-date input{
-    height: 44px;
+    height: 38px;
     font-size: 20px;
+    width: 150px;
 }
 p.title{
     font-size: 18px;
@@ -280,4 +282,23 @@ img.chart{
 .login-form form {
     width: 220px;
     margin: 0 auto;
+}
+.hero-body.column{
+    width: 590px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin: 32px auto;
+    flex-direction: column;
+}
+.tracker{    
+    font-size: 24px;
+    margin: 8px auto;
+}
+.description{    
+    font-size: 18px;
+    margin: 16px auto;
+}
+.title, .subtitle{
+    color: black;
 }

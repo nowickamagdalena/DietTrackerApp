@@ -5,11 +5,13 @@
     <div class="container has-text-centered">
         <div class="container form-to-left">
     {% if update == 'true' %}    
-        <form method="GET" action="/getIngredientsForMeal/{{mealid}}/{{date}}">
+        <form method="GET" action="/diet-tracker/meal">
             <button class="submit-type btn" name="back-to-meal">Cancel</button>
+            <input type="hidden" name="date" value="{{date}}">
+            <input type="hidden" name="mealid" value="{{mealid}}">
         </form>
     {% else %}    
-        <form method="POST" action="/diet-tracker/searchIngredients">
+        <form method="POST" action="/diet-tracker/searchFood">
             <input type="submit" value="Cancel" class="btn">
             <input type="hidden" name="mealid" value="{{mealid}}">
             <input type="hidden" name="update" value="false">
@@ -78,6 +80,7 @@
         
         <input type="hidden" name="date" value="{{date}}">
         <input type="hidden" name="mealtype" value="{{mealtype}}">
+        <input type="hidden" name="foodname" value="{{foodname}}">
         <input type="hidden" name="mealid" value="{{mealid}}">
         <input type="hidden" name="foodid" id="foodid" value="{{food['food_id']}}">
         <input type="hidden" name="update" value="{{update}}">

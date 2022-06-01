@@ -4,16 +4,17 @@
 <div class="hero-body day-view center">
     <div class="container has-text-centered">
         <div class="container form-to-left">
-    <form method="GET" action="/diet-tracker/myDay">
+    <form method="GET" action="/diet-tracker/day">
         <button class="submit-type btn" name="back-to-meals">Back to meals</button>
         <input type="hidden" name="date" value="{{date}}">
     </form>
     </div>
     <div class="day-card">
+    <strong><p>{{date}}</p></strong>
     {% if goals['calories'] != None %}
-    <p>Calories for {{date}}: {{calories}} / {{goals['calories']}}</p>
+    <p>Calories: {{calories}} kcal / {{goals['calories']}} kcal</p>
     {% else %}
-    <p>Calories for {{date}}: {{calories}}</p>
+    <p>Calories: {{calories}} kcal</p>
     {% endif %}
     
     {% if goals['protein'] != None %}
