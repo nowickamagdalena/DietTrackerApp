@@ -126,6 +126,7 @@ def search():
 
 #function displaying search window
 @diet_tracker.route('/diet-tracker/searchFood', methods=['POST'])
+@login_required
 def searchFood():
     date = request.form.get('date')
     mealid = request.form.get('mealid')
@@ -136,6 +137,7 @@ def searchFood():
     
 #function displaying meal choice for user
 @diet_tracker.route('/newMeal')
+@login_required
 def newMeal():
     date = request.args.get('date')
     date_list=date.split("-")
@@ -151,6 +153,7 @@ def newMeal():
 
 #function for adding new meals to database
 @diet_tracker.route('/addMeal')
+@login_required
 def addMeal():
     date = request.args.get('date')
     date_list = date.split("-")
