@@ -1,7 +1,7 @@
 import json
 import datetime
 from app import calorieCounter
-from .searchService import api
+from .searchService import SearchService
 from flask import Blueprint, flash, redirect, render_template, request, url_for
 from flask_login import current_user, login_required
 from .models import Meal, Ingredient, User
@@ -11,6 +11,7 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
 diet_tracker = Blueprint('diet_tracker', __name__)
+api = SearchService()
 calCounter = calorieCounter.CalorieCounter(api)
 
 @diet_tracker.route('/diet-tracker')
@@ -133,12 +134,6 @@ def searchFood():
 
     return render_template("foodSearcher.html", date=date, mealtype=mealtype, mealid=mealid, foods="false", update=update)
     
-# @diet_tracker.route('/diet-tracker/searchById/<foodId>')
-# @login_required
-# def searchFoodId(foodId):
-#     results = api.getFoodById(foodId)
-#     return results
-
 #function displaying meal choice for user
 @diet_tracker.route('/newMeal')
 def newMeal():
@@ -339,4 +334,3 @@ def deleteMealOfId():
     db.session.commit()
 
     return redirect(url_for("diet_tracker.getMealsForDay", date=date))
-

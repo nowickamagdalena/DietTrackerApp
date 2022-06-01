@@ -1,14 +1,27 @@
 from app.models import Ingredient
+from .searchService import SearchService
 
 #class for counting calories and other nutrients of different food got from fat secret api
 class CalorieCounter:
 
     def __init__(self, api) :
-        self.__api = api
+        self.api = api
+    
+    @property
+    def api(self):
+        return self.__api
+        
+    @api.setter
+    def api(self, new_api):
+        if isinstance(new_api, SearchService):
+            self.__api = new_api
+        else:
+            raise TypeError("Api must be an instance of the SearchService class.")
+
 
     #function calculating calories, fat, protein and carbohydrates for given food id, serving id and quantity
     def calcNutrientsForServing(self, foodid, servingid, quantity):
-        result = self.__api.getFoodById(foodid)
+        result = self.api.getFoodById(foodid)
         myServing = None
         servings = result['servings']['serving']
         if type(servings) != list:
@@ -21,7 +34,7 @@ class CalorieCounter:
 
     #function calculating calories, fat, protein and carbohydrates for given food item from database
     def calcNutrientsForFood(self, food):
-        result = self.__api.getFoodById(food.food_id)
+        result = self.api.getFoodById(food.food_id)
         myServing = None
         servings = result['servings']['serving']
         if type(servings) != list:
