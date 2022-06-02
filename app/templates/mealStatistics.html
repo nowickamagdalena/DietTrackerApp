@@ -19,19 +19,19 @@
     {% endif %}
     
     {% if goals['protein'] != None %}
-    <p>Protein: {{protein}} g, {{percents['protein']}} / {{goals['protein']}} % </p>
+    <p>Protein: {{protein}} g | {{percents['protein']}} / {{goals['protein']}}% </p>
     {% else %}
-    <p>Protein: {{protein}} g</p>
+    <p>Protein: {{protein}} g | {{percents['protein']}}</p>
     {% endif %}
     {% if goals['fat'] != None %}
-    <p>Fat: {{fat}} g, {{percents['fat']}} / {{goals['fat']}} % </p>
+    <p>Fat: {{fat}} g | {{percents['fat']}} / {{goals['fat']}}% </p>
     {%else%}
-    <p>Fat: {{fat}} g</p>
+    <p>Fat: {{fat}} g | {{percents['fat']}}</p>
     {% endif %}
     {% if goals['carbs'] != None %}
-    <p>Carbohydrates: {{carbs}} g, {{percents['carbs']}} / {{goals['carbs']}} % </p>
+    <p>Carbohydrates: {{carbs}} g | {{percents['carbs']}} / {{goals['carbs']}}% </p>
     {%else%}
-    <p>Carbohydrates: {{carbs}} g</p>    
+    <p>Carbohydrates: {{carbs}} g | {{percents['carbs']}}</p>    
     {% endif %}
     </div>
     {% if calories|int > 0 %}

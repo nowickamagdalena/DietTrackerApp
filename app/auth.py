@@ -1,3 +1,4 @@
+from genericpath import exists
 from flask import Blueprint, render_template, redirect, url_for, request, flash
 from werkzeug.security import generate_password_hash, check_password_hash
 from .models import User
@@ -32,7 +33,8 @@ def login_post():
 #function displaing signup view
 @auth.route('/signup')
 def signup():
-    return render_template('signup.html', exists="false")
+    exists = request.args.get('exists')
+    return render_template('signup.html', exists=exists)
 
 #function creating user account in db if doesn't exist
 @auth.route('/signup', methods=['POST'])

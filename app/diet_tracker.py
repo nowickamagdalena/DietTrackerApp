@@ -31,7 +31,6 @@ def pickFoodDetails():
     update = request.args.get('update')
     mealtype = request.args.get('mealtype')
     foodname = request.args.get('foodname')
-    print(date, mealtype, foodid)
     
     result = api.getFoodById(foodid)
     servings = result['servings']['serving']
@@ -63,10 +62,8 @@ def countPreviewCalories():
     foodid = request.args.get('foodid')
     servingid = request.args.get('servingid')
     quantity = request.args.get('quantity')
-    print(foodid, servingid, quantity)
 
     result = calCounter.calcNutrientsForServing(foodid, servingid, float(quantity))
-    print(result)
     return json.dumps(result)
 
 #function for adding food to meal
@@ -228,7 +225,7 @@ def dayStatistics(date):
         fat = '{:.2f}'.format(round(float(fat),2))
         protein = '{:.2f}'.format(round(float(protein), 2))
         carbs = '{:.2f}'.format(round(float(carbs), 2))
-        calories = int(float(calories))
+        calories = int(round(float(calories)))
         percents = {'protein': protein_pct, 'fat': fat_pct, 'carbs': carbs_pct}
         
     return render_template('dailyStatistics.html', calories=calories, protein=protein, fat=fat, carbs=carbs, goals=userGoals, img_url="images/dailyChart.png", date=date, percents=percents)
@@ -296,7 +293,7 @@ def mealStatistics(mealtype, date):
         fat = '{:.2f}'.format(round(float(fat),2))
         protein = '{:.2f}'.format(round(float(protein), 2))
         carbs = '{:.2f}'.format(round(float(carbs), 2))
-        calories = int(float(calories))
+        calories = int(round(float(calories)))
 
         percents = {'protein': protein_pct, 'fat': fat_pct, 'carbs': carbs_pct}
     

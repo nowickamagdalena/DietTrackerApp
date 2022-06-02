@@ -71,7 +71,7 @@
                     xmlHttp.send(null);
                     console.log(xmlHttp.responseText)
                     var result = JSON.parse(xmlHttp.responseText);
-                    document.getElementById("calorie-preview").innerHTML = "Current kcal: " + result['calories'];
+                    document.getElementById("calorie-preview").innerHTML = "Calories: " + result['calories'] + "kcal | Protein: " + result['protein'] + "g | Fat: " + result['fat'] + "g | Carbs: " + result['carbohydrate'] + "g";
                     console.log(result['calories'])
                 }
                 }

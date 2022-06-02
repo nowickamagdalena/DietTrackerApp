@@ -248,6 +248,7 @@ select{
 #quantity{
     border: 1px solid #000000;
     font-size: 16px;
+    -moz-appearance: textfield;
 }
 .actions-cell{
     display: flex;
