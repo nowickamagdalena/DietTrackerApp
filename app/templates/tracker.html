@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="hero-body center column">
+    <strong><p class="tracker">Tracker</p></strong>
+    <p class="description">Choose date from the calendar to start food tracking!</p>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="notification is-danger">
+                {{ messages[0] }}
+            </div>
+        {% endif %}
+    {% endwith %}
+  <div class="container date-container has-text-centered">    
+    <p class="title">Pick date:</p>
+    <form method="GET" class="form-date" action="{{ url_for('diet_tracker.getMealsForDay') }}">
+      <input type="date" name="date">
+      <button class="btn submit-date">Submit</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

@@ -1,4 +1,4 @@
-import json
+from genericpath import exists
 from flask import Blueprint, render_template, redirect, url_for, request, flash
 from werkzeug.security import generate_password_hash, check_password_hash
 from .models import User
@@ -7,10 +7,12 @@ from .__init__ import db
 
 auth = Blueprint('auth', __name__)
 
+#function displaing user login view
 @auth.route('/login')
 def login():
     return render_template('login.html')
 
+#authenticating user login and password
 @auth.route('/login', methods=['POST'])
 def login_post():
     email = request.form.get('email')
@@ -27,21 +29,29 @@ def login_post():
 
     login_user(user, remember=remember)
     return redirect(url_for('main.profile'))
+
+#function displaing signup view
 @auth.route('/signup')
 def signup():
-    return render_template('signup.html')
+    exists = request.args.get('exists')
+    return render_template('signup.html', exists=exists)
 
+#function creating user account in db if doesn't exist
 @auth.route('/signup', methods=['POST'])
 def signup_post():
     email = request.form.get('email')
     name = request.form.get('name')
     password = request.form.get('password')
-
+    print(email, name, password)
     user = User.query.filter_by(email=email).first() # if this returns a user, then the email already exists in database
+
+    if email == "" or name == "" or password == "":
+        flash('All: email, name and password are obligatory')
+        return redirect(url_for('auth.signup', exists="false"))
 
     if user: # if a user is found, we want to redirect back to signup page so user can try again
         flash('Email address already exists')
-        return redirect(url_for('auth.signup'))
+        return redirect(url_for('auth.signup', exists="true"))
 
     # create a new user with the form data. Hash the password so the plaintext version isn't saved.
     new_user = User(email=email, name=name, password=generate_password_hash(password, method='sha256'))
@@ -52,6 +62,7 @@ def signup_post():
 
     return redirect(url_for('auth.login'))
 
+#user logout
 @auth.route('/logout')
 @login_required
 def logout():

@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="hero-body day-view center">
+    <div class="container has-text-centered">
+        <div class="container form-to-left">
+    <form method="GET" action="/diet-tracker/day">
+        <button class="submit-type btn" name="back-to-meals">Back to meals</button>
+        <input type="hidden" name="date" value="{{date}}">
+    </form>
+    </div>
+    
+    <div class="day-card">
+    <form method="GET" class="form-to-right" action="/diet-tracker/confirm-delete-meal">
+        <button class="submit-type btn btn-small btn-red" name="delete-meal">Delete meal</button>
+        <input type="hidden" name="date" value="{{date}}">
+        <input type="hidden" name="mealid" value={{mealid}}>
+        <input type="hidden" name="mealtype" value="{{mealtype}}">
+    </form>
+    <strong><p>{{mealtype}} on {{date}}</p></strong>
+    <div class="statistics-container">
+    <P>Calories consumed: {{meal_nutr['calories']|round|int}} kcal</P> 
+    <form method="POST" action="/diet-tracker/{{date}}/{{mealtype}}/statistics">
+        <input type="submit" class="btn btn-small" value="Check nutritional statistics" />
+        <input type="hidden" name="calories" value="{{meal_nutr['calories']}}"/>
+        <input type="hidden" name="protein" value="{{meal_nutr['protein']}}"/>
+        <input type="hidden" name="fat" value="{{meal_nutr['fat']}}"/>
+        <input type="hidden" name="carbs" value="{{meal_nutr['carbohydrate']}}"/>
+        <input type="hidden" name="date" value="{{date}}" />
+        <input type="hidden" name="mealtype" value="{{mealtype}}" />
+        <input type="hidden" name="mealid" value="{{mealid}}" />
+    </form> 
+    </div>
+    <strong><p>Ingredients:</p></strong>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="notification is-danger">
+                {{ messages[0] }}
+            </div>
+        {% endif %}
+    {% endwith %}
+    {% if foods|length == 0 %}
+        <p>No ingredients added for this meal yet</p>
+    {% else%}
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Serving</th>
+            <th>Quantity</th>
+            <th>Kcal</th>
+            <th>Actions</th>
+        </tr>
+    {% for food in foods %}
+        <tr>
+            <td>{{food['name']}}</td>
+            <td>{{food['s_name']}}</td>
+            <td>{{"%.2f"|format(food['quantity'])}}</td>
+            <td>{{foods_nutr[food['foodid']]['calories']|round|int}}</td>
+            <td class="actions-cell">            
+                <form method="GET" action="{{ url_for('diet_tracker.pickFoodDetails')}}">
+                <button type='submit' class="food-item btn btn-tiny"> Edit</button>
+                <input type="hidden" name="update" value="true">
+                <input type="hidden" name="mealtype" value="{{mealtype}}">
+                <input type="hidden" name="mealid" value="{{mealid}}">
+                <input type="hidden" name="date" value={{date}}>
+                <input type="hidden" name="foodid" value={{food['foodid']}}>
+                <input type="hidden" name="foodname" value="{{food['name']}}">
+            </form> 
+            <form method="GET" action="/diet-tracker/deleteIngredient">
+                <button type='submit' class="food-item btn btn-tiny btn-red"> Remove</button>
+                <input type="hidden" name="mealid" value={{mealid}}>
+                <input type="hidden" name="date" value={{date}}>
+                <input type="hidden" name="foodid" value={{food['foodid']}}>
+            </form>
+        </td>
+        </tr>
+    {% endfor %}
+    {% endif %}
+    </table>
+    <form method="POST" action="/diet-tracker/searchFood">
+        <input type="submit" value="Add ingredient" class="btn btn-small">
+        <input type="hidden" name="mealid" value="{{mealid}}">
+        <input type="hidden" name="update" value="false">
+        <input type="hidden" name="date" value="{{date}}">
+        <input type="hidden" name="start" value="true">
+        <input type="hidden" name="mealtype" value="{{mealtype}}">
+    </form>  
+</div>
+</div>
+</div>
+{% endblock %}

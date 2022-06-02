@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="hero-body day-view center">
+    <div class="container has-text-centered">
+        <div class="container form-to-left">
+    {% if update == 'true' %}    
+        <form method="GET" action="/diet-tracker/meal">
+            <button class="submit-type btn" name="back-to-meal">Cancel</button>
+            <input type="hidden" name="date" value="{{date}}">
+            <input type="hidden" name="mealid" value="{{mealid}}">
+        </form>
+    {% else %}    
+        <form method="POST" action="/diet-tracker/searchFood">
+            <input type="submit" value="Cancel" class="btn">
+            <input type="hidden" name="mealid" value="{{mealid}}">
+            <input type="hidden" name="update" value="false">
+            <input type="hidden" name="date" value="{{date}}">
+            <input type="hidden" name="mealtype" value="{{mealtype}}">
+        </form>
+    {% endif %}
+    </div>        
+    {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="notification is-danger">
+                    {{ messages[0] }}
+                </div>
+            {% endif %}
+        {% endwith %}
+    <div class="day-card">
+    <div>
+        <p class="title">Adding {{foodname}} for {{mealtype}} on {{date}}</p>
+    </div>
+    <form method="POST" action="/diet-tracker/addFood">
+        <div class="serving">
+            <select name="servingid" id="select-serving" onchange='displayPreviewCals()'>
+                {% if update == "false" %}
+                    <option value="" disabled selected>Select serving</option>
+                {% else %}
+                    <option value="{{serving['serving_id']}}" selected>{{serving['serving_description']}}, kcal: {{serving['calories']}}</option>
+                 {% endif %}
+                {% for serv in food['servings']['serving'] %} 
+                    {% if serv['serving_id'] != serving['serving_id'] %}   
+                        <option value="{{serv['serving_id']}}">{{serv['serving_description']}}, kcal: {{serv['calories']}}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+            <div class="quantity-container">
+            <p class="title">Quantity:</p>
+            {% if update == "false" %}
+                <input type="number" name="quantity" id="quantity" step="0.01" min="0" onchange='displayPreviewCals()' onkeypress="return (event.charCode >= 48 && event.charCode <= 57) ||  
+                event.charCode == 46 || event.charCode == 0 ">
+            {% else %}
+                <input type="number" value="{{quantity}}" name="quantity" id="quantity" step="0.01" min="0.01"onchange='displayPreviewCals()' onkeypress="return (event.charCode >= 48 && event.charCode <= 57) ||  
+                event.charCode == 46 || event.charCode == 0 ">
+            {% endif %}
+            </div>
+            <p id='calorie-preview'></p>
+
+            <script>
+                function displayPreviewCals() {
+                var serv_id = document.getElementById("select-serving").value;
+                console.log(serv_id)
+                var quantity = document.getElementById("quantity").value;
+                console.log(quantity)
+                var foodid = document.getElementById("foodid").value;
+                console.log(foodid)
+                if(serv_id != null && quantity != ""){
+                    var xmlHttp = new XMLHttpRequest();
+                    xmlHttp.open("GET", '/diet-tracker/preview-calories'+"?"+`foodid=${foodid}&servingid=${serv_id}&quantity=${quantity}`, false);
+                    xmlHttp.send(null);
+                    console.log(xmlHttp.responseText)
+                    var result = JSON.parse(xmlHttp.responseText);
+                    document.getElementById("calorie-preview").innerHTML = "Calories: " + result['calories'] + "kcal | Protein: " + result['protein'] + "g | Fat: " + result['fat'] + "g | Carbs: " + result['carbohydrate'] + "g";
+                    console.log(result['calories'])
+                }
+                }
+            </script>
+        </div>
+        
+        <input type="hidden" name="date" value="{{date}}">
+        <input type="hidden" name="mealtype" value="{{mealtype}}">
+        <input type="hidden" name="foodname" value="{{foodname}}">
+        <input type="hidden" name="mealid" value="{{mealid}}">
+        <input type="hidden" name="foodid" id="foodid" value="{{food['food_id']}}">
+        <input type="hidden" name="update" value="{{update}}">
+        <button class="add-food-button btn btn-small">Confirm</button>
+    </form>
+    </div>
+</div>
+</div>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="hero-body day-view center">
+    <div class="container has-text-centered">
+    <p>Are you sure you want to delete {{mealtype}} from {{date}} ?</p>
+    <div class="actions-cell confirmation">
+        <form action="/diet-tracker/deleteMeal">
+            <button class="submit-type btn btn-small btn-red" name="type">Delete</button>
+            <input type="hidden" name="date" value="{{date}}">
+            <input type="hidden" name="mealid" value="{{mealid}}">
+        </form>  
+        <form action="/diet-tracker/meal">
+            <button class="submit-type btn-small btn" name="type">Cancel</button>
+            <input type="hidden" name="date" value="{{date}}">
+            <input type="hidden" name="mealid" value="{{mealid}}">
+        </form>
+    </div>
+</div>
+</div>
+{% endblock %}

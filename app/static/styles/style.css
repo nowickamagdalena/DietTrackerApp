@@ -1,0 +1,305 @@
+body{
+    display: flex;
+    justify-content: center;
+    font-family: Tahoma;
+    margin: 0;
+}
+.container{
+    width: 100%;
+}
+.has-text-centered{
+    text-align: center;
+}
+section.hero{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.header-container{
+    width: 100%;
+    background-color: rgb(148,210,46);
+    display: flex;
+    justify-content: center;
+}
+.hero-head{
+    width: 590px;
+    display: flex;
+    justify-content: space-between;
+}
+.header-container img{
+    max-width: 60px;
+}
+.hero-head .navbar{
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px 0;
+    align-items: center;
+}
+.hero-head .navbar a{
+    color: #FFFFFF;
+    text-decoration: none;
+    background-color: rgb(148,210,46);
+    padding: 0 14px;
+    border-radius: 2px;
+    border-right: 1px solid white;
+    display: flex;
+    align-items: center;
+    max-height: 30px;
+}
+.hero-head .navbar a:last-child{
+    border-right: none;
+}
+.hero-body{
+    width: 590px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin: 32px auto;
+}
+.hero-body.center{
+    justify-content: center;
+}
+.main-page{
+    display: flex;
+    justify-content: center;
+    color: rgb(92,92,92);
+    flex-direction: column;
+}
+.main-page img{
+    max-width: 220px;
+    margin: 0 auto;
+}
+.main-page h1, .main-page h2{
+    text-align: center;
+}
+.notification.is-danger{
+    color: rgb(255,63,83);
+    font-size: 16px;
+    padding: 10px 34px;
+    border: 2px solid rgb(255,63,83);
+    background: rgba(255,63,83,.1);
+    margin-bottom: 12px;
+}
+.notification.is-danger a{
+    color: rgb(255,63,83);
+    font-weight: bold;
+}
+.goal-form p{
+    font-size: 18px;
+    margin: 12px;
+}
+.goal-form input, .search input{
+    -webkit-appearance: none;
+    -moz-appearance: textfield;
+    border: 1px solid #000000;
+    -webkit-box-shadow: 5px 5px 30px -6px #000000;
+    box-shadow: 10px 5px 30px -10px #000;
+    border-radius: 6px;
+    height: 32px;   
+    width: 30%;
+    font-size: 18px;
+}
+.search input{
+    width: 77%;
+}
+.form-row{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid black;
+    padding: 5px 24px;
+    margin-bottom: 12px;
+    margin-top: 12px;
+    border-radius: 4px;
+    background: rgb(229,240,255);
+}
+.btn{
+    background-color: rgb(148,210,46);
+    border: 2px solid black;
+    padding: 10px 34px;
+    font-size: 18px;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.btn-small{
+    font-size: 12px;
+    padding: 10px 24px;   
+}
+.btn-tiny{
+    font-size: 10px;
+    padding: 8px 12px;   
+}
+.btn-red{
+    background-color: rgb(255,63,83);
+}
+.form-date{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: column;
+    height: 120px;
+}
+.form-date input{
+    height: 38px;
+    font-size: 20px;
+    width: 150px;
+}
+p.title{
+    font-size: 18px;
+    font-weight: bold;
+    margin-right: 16px;
+}
+.date-container{
+    display: flex;
+    justify-content: center;
+}
+.statistics-container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+}
+.quantity-container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+.day-view p{
+    font-size: 18px;
+}
+.form-to-left{
+    display: flex;
+    justify-content: flex-start;
+}
+.form-to-right{
+    display: flex;
+    justify-content: flex-end;
+}
+.form-to-left .btn{
+    margin-bottom: 16px;
+}
+.day-card{
+    background-color: rgb(229,240,255);
+    border-radius: 8px;
+    padding: 18px;
+    -webkit-box-shadow: 5px 5px 30px -6px #000000;
+    box-shadow: 10px 5px 30px -10px #000;
+    margin-top: 24px;
+}
+.dots{
+    border-top: 15px dotted #3d3d3d;
+}
+.day-card .date{
+    padding: 12px 0;
+    background-color: rgb(192,122,71);
+}
+.meal-type-form{
+    width: 120px;
+    margin: 24px auto;
+}
+.meal-view{
+    margin: 24px auto;
+    width: 300px;
+}
+.meal-type-form .btn{
+    width: 100%;
+    margin-bottom: 6px;
+}
+.search-results{
+    border: 2px solid #000000;
+}
+.search-results .result{
+    font-size: 14px;
+    background-color: #f0f0f0;
+    cursor: pointer;
+    width: auto;
+    padding: 12px 6px;
+    display: flex;
+    justify-content: flex-start;
+    color: #000000;
+    text-decoration: none;
+    height: 30px;
+    text-align: left;
+    flex-direction: column;
+}
+.search-results .result:nth-child(2n){
+    background-color: #fdfdfd;
+}
+
+.meal-view .result{
+    font-size: 14px;
+    display: flex;
+    justify-content: flex-start;
+    text-decoration: none;
+    flex-direction: column;
+    color: #000000;
+    margin-bottom: 12px;
+    background-color: rgb(253,196,10);
+}
+select{
+    background-color: #FFFFFF;
+    border: 1px solid #000000;
+    font-size: 16px;
+}
+#quantity{
+    border: 1px solid #000000;
+    font-size: 16px;
+    -moz-appearance: textfield;
+}
+.actions-cell{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+table{
+    width: 100%;
+    margin-bottom: 12px;
+}
+table tr{
+    padding: 12px 0;
+}
+table td{
+    max-width: 160px;
+}
+.confirmation{
+    width: 50%;
+    margin: 0 auto;
+}
+img.chart{
+    max-width: 590px;
+}
+.login-form .input {
+    font-size: 18px;
+    width: 100%;
+}
+.login-form .field{
+    margin-bottom: 12px;
+}
+.login-form form {
+    width: 220px;
+    margin: 0 auto;
+}
+.hero-body.column{
+    width: 590px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin: 32px auto;
+    flex-direction: column;
+}
+.tracker{    
+    font-size: 24px;
+    margin: 8px auto;
+}
+.description{    
+    font-size: 18px;
+    margin: 16px auto;
+}
+.title, .subtitle{
+    color: black;
+}
