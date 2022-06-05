@@ -2,9 +2,8 @@ from fatsecret import Fatsecret
 
 #class for searching food using fat secret api
 class SearchService:
-    #keys below have been generated for project owner email and shouldn't be used by other developers
-    DEFAULT_CONSUMER_KEY = '3ff7ca99e0fe438b9fae36e5b099666b'
-    DEFAULT_CONSUMER_SECRET ='d3c02e434d5e4755a2df887363b76017'
+    DEFAULT_CONSUMER_KEY = 'paste your consumer key here'
+    DEFAULT_CONSUMER_SECRET ='paste you secret key here'
 
     def __init__(self, consumer_key=DEFAULT_CONSUMER_KEY, consumer_secret=DEFAULT_CONSUMER_SECRET, maxResultsNum=50):
         self.api = Fatsecret(consumer_key, consumer_secret) 
